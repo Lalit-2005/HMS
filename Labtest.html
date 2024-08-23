@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab Test Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+        }
+
+        section {
+            margin: 20px;
+        }
+
+        form {
+            max-width: 500px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #333;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Lab Test Management</h1>
+    </header>
+
+    <section>
+        <form id="patientForm">
+            <h2>Patient Registration</h2>
+            <label for="patientName">Patient Name:</label>
+            <input type="text" id="patientName" required>
+
+            <label for="labTest">Lab Test:</label>
+            <select id="labTest" required>
+                <option value="bloodTest">Blood Test</option>
+                <option value="urineTest">Urine Test</option>
+                <option value="xRay">X-Ray</option>
+                <!-- Add more test options as needed -->
+            </select>
+
+            <button type="button" onclick="registerPatient()">Register Patient</button>
+        </form>
+
+        <h2>Lab Test Schedule</h2>
+        <table id="labTestTable">
+            <thead>
+                <tr>
+                    <th>Patient Name</th>
+                    <th>Lab Test</th>
+                    <th>Result</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Lab test entries will be displayed here -->
+            </tbody>
+        </table>
+    </section>
+
+    <script>
+        function registerPatient() {
+            const patientName = document.getElementById("patientName").value;
+            const labTest = document.getElementById("labTest").value;
+
+            // Create a new row in the table for the registered patient
+            const table = document.getElementById("labTestTable").getElementsByTagName('tbody')[0];
+            const newRow = table.insertRow(table.rows.length);
+
+            // Insert patient details into the new row
+            const cell1 = newRow.insertCell(0);
+            const cell2 = newRow.insertCell(1);
+            const cell3 = newRow.insertCell(2);
+
+            cell1.innerHTML = patientName;
+            cell2.innerHTML = labTest;
+            cell3.innerHTML = '<button onclick="inputTestResults(this)">Input Results</button>';
+        }
+
+        function inputTestResults(button) {
+            const row = button.parentNode.parentNode;
+            const patientName = row.cells[0].innerHTML;
+            const labTest = row.cells[1].innerHTML;
+
+            // Prompt the user to input test results (you can replace this with a more sophisticated input form)
+            const testResults = prompt(`Enter test results for ${patientName}'s ${labTest}:`);
+
+            // Display the test results in the table
+            row.cells[2].innerHTML = testResults;
+        }
+    </script>
+
+</body>
+</html>

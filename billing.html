@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Management System - Billing and Invoicing</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #4caf50;
+            color: white;
+        }
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        form {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        label {
+            margin-bottom: 5px;
+        }
+        input {
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Billing and Invoicing</h2>
+
+    <table id="billingTable">
+        <thead>
+            <tr>
+                <th>Service</th>
+                <th>Cost</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Table rows will be dynamically added here -->
+        </tbody>
+    </table>
+
+    <form id="addServiceForm">
+        <label for="serviceName">Service Name:</label>
+        <input type="text" id="serviceName" required>
+
+        <label for="serviceCost">Service Cost ($):</label>
+        <input type="number" id="serviceCost" min="0" required>
+
+        <button type="button" onclick="addService()">Add Service</button><br><br>
+    </form>
+
+    <button onclick="generateInvoice()">Generate Invoice</button>
+
+    <h3>Financial Transactions Summary</h3>
+    <div id="financialSummary"></div>
+
+    <script>
+        var services = []; // Array to store services for billing
+
+        function addService() {
+            var serviceNameInput = document.getElementById('serviceName');
+            var serviceCostInput = document.getElementById('serviceCost');
+
+            var serviceName = serviceNameInput.value;
+            var serviceCost = parseFloat(serviceCostInput.value);
+
+            if (serviceName && !isNaN(serviceCost)) {
+                services.push({ name: serviceName, cost: serviceCost });
+                displayServices();
+                // Clear input fields after adding a service
+                serviceNameInput.value = '';
+                serviceCostInput.value = '';
+            } else {
+                alert('Invalid input. Please enter valid service details.');
+            }
+        }
+
+        function displayServices() {
+            var tableBody = document.querySelector('#billingTable tbody');
+            tableBody.innerHTML = '';
+
+            services.forEach(function(service, index) {
+                var row = tableBody.insertRow();
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                var cell3 = row.insertCell(2);
+
+                cell1.innerHTML = service.name;
+                cell2.innerHTML = '$' + service.cost.toFixed(2);
+                cell3.innerHTML = '<button onclick="removeService(' + index + ')">Remove</button>';
+            });
+        }
+
+        function removeService(index) {
+            services.splice(index, 1);
+            displayServices();
+        }
+
+        function generateInvoice() {
+            var totalCost = services.reduce(function(sum, service) {
+                return sum + service.cost;
+            }, 0);
+
+            var financialSummary = document.getElementById('financialSummary');
+            financialSummary.innerHTML = 'Total Cost: $' + totalCost.toFixed(2);
+
+            // Here you can perform further actions like saving to the database or alerting the user.
+            console.log('Invoice Generated:', { services, totalCost });
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Module</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+        }
+
+        section {
+            margin: 20px;
+        }
+
+        .emergency-contact {
+            background-color: #ffcccb;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .emergency-room {
+            background-color: #b3e0ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .emergency-patient {
+            background-color: #d9ead3;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .registration-form {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Emergency Module</h1>
+    </header>
+
+    <section>
+        <div class="emergency-contact">
+            <h2>Emergency Contact Information</h2>
+            <p><strong>Emergency Phone:</strong> 911</p>
+            <p><strong>Local Hospital:</strong> XYZ Medical Center</p>
+            <p><strong>Contact Number:</strong> (123) 456-7890</p>
+        </div>
+
+        <div class="emergency-room">
+            <h2>Emergency Room Status and Updates</h2>
+            <p><strong>Status:</strong> Open</p>
+            <p><strong>Current Wait Time:</strong> 15 minutes</p>
+            <p><strong>Last Update:</strong> 2024-01-28 10:30 AM</p>
+        </div>
+
+        <div class="emergency-patient">
+            <h2>Rapid Response - Patient Information</h2>
+            <label for="patientName">Patient Name:</label>
+            <input type="text" id="patientName" placeholder="Enter patient name">
+            <button onclick="getPatientInfo()">Get Patient Info</button>
+            <p id="patientInfo"></p>
+
+            <!-- Patient Registration Form -->
+            <div class="registration-form">
+                <h3>Patient Registration</h3>
+                <label for="roomNumber">Room Number:</label>
+                <input type="number" id="roomNumber" placeholder="Enter room number">
+                <button onclick="registerPatient()">Register Patient</button>
+                <p id="registrationMessage"></p>
+            </div>
+        </div>
+    </section>
+    <script>
+        function getPatientInfo() {
+            // Implement logic to retrieve patient information based on the entered name
+            const patientName = document.getElementById("patientName").value;
+            // Example: You can fetch patient information from a database or another data source
+            const patientInfo = `Patient Information for ${patientName} fetched successfully!`;
+            document.getElementById("patientInfo").textContent = patientInfo;
+        }
+    
+        function registerPatient() {
+            const roomNumber = parseInt(document.getElementById("roomNumber").value, 10);
+    
+            // Check if the room number is within the valid range (1 to 100 beds)
+            if (roomNumber >= 1 && roomNumber <= 100) {
+                // Simulate checking if the room is not full
+                const isRoomAvailable = Math.random() < 0.8; // 80% chance of room availability
+    
+                const registrationMessage = document.getElementById("registrationMessage");
+    
+                if (isRoomAvailable) {
+                    // Simulate successful registration
+                    registrationMessage.innerHTML = alert("Patient registered successfully!");
+                    registrationMessage.innerHTML = "Patient registered successfully!";
+                } else {
+                    registrationMessage.innerHTML = alert("Room is full. Unable to register the patient.");
+                    registrationMessage.innerHTML = "Room is full. Unable to register the patient.";
+                }
+            } else {
+                // Display a message if the room number is invalid
+                document.getElementById("registrationMessage").innerHTML = alert("Room is full. Unable to register the patient.");
+            }
+        }
+    </script>
+    
+</body>
+</html>

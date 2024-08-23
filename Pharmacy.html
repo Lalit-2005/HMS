@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pharmacy Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+        }
+
+        section {
+            margin: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #333;
+            color: white;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        form {
+            max-width: 500px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Pharmacy Management</h1>
+    </header>
+
+    <section>
+        <form id="prescriptionForm">
+            <h2>Prescription Verification</h2>
+            <label for="medicineName">Medicine Name:</label>
+            <select id="medicineName" required>
+                <option value="Aspirin">Aspirin</option>
+                <option value="Ibuprofen">Ibuprofen</option>
+                <option value="Paracetamol">Paracetamol</option>
+            </select>
+
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity" required>
+
+            <button type="button" onclick="verifyPrescription()">Verify Prescription</button>
+        </form>
+
+        <h2>Medicine Inventory</h2>
+        <table id="inventoryTable">
+            <thead>
+                <tr>
+                    <th>Medicine Name</th>
+                    <th>Stock</th>
+                    <th>Remaining Stock</th>
+                    <th>Price per Unit</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Aspirin</td>
+                    <td>50</td>
+                    <td id="remainingStockAspirin">50</td>
+                    <td>$1.00</td>
+                </tr>
+                <tr>
+                    <td>Ibuprofen</td>
+                    <td>30</td>
+                    <td id="remainingStockIbuprofen">30</td>
+                    <td>$1.50</td>
+                </tr>
+                <tr>
+                    <td>Paracetamol</td>
+                    <td>40</td>
+                    <td id="remainingStockParacetamol">40</td>
+                    <td>$0.75</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <script>
+        function loadInitialStock() {
+            const medicines = ['Aspirin', 'Ibuprofen', 'Paracetamol'];
+            medicines.forEach(medicine => {
+                const storedStock = localStorage.getItem(medicine);
+                const stockElement = document.getElementById(`remainingStock${medicine}`);
+                if (storedStock !== null) {
+                    stockElement.textContent = storedStock;
+                }
+            });
+        }
+
+        loadInitialStock();
+
+        function verifyPrescription() {
+            const medicineName = document.getElementById("medicineName").value;
+            const quantity = parseInt(document.getElementById("quantity").value, 10);
+
+            const remainingStockElement = document.getElementById(`remainingStock${medicineName}`);
+            const currentStock = parseInt(remainingStockElement.textContent, 10);
+
+            if (quantity <= currentStock) {
+                const updatedStock = currentStock - quantity;
+                remainingStockElement.textContent = updatedStock;
+                localStorage.setItem(medicineName, updatedStock);
+                alert(`Prescription verified. Dispensing ${quantity} units of ${medicineName}.`);
+            } else {
+                alert(`Not enough stock for ${medicineName}. Available stock: ${currentStock}`);
+            }
+        }
+    </script>
+
+</body>
+</html>
